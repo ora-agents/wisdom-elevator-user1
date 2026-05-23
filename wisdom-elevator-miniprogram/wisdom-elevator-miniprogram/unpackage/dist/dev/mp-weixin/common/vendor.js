@@ -5161,6 +5161,7 @@ function vFor(source, renderItem) {
 }
 const o$1 = (value, key) => vOn(value, key);
 const f$1 = (source, renderItem) => vFor(source, renderItem);
+const e$1 = (target, ...sources) => extend(target, ...sources);
 const n$1 = (value) => normalizeClass(value);
 const t$1 = (val) => toDisplayString(val);
 function createApp$1(rootComponent, rootProps = null) {
@@ -8001,6 +8002,18 @@ const pages = [
     }
   },
   {
+    path: "pages/repair/repair",
+    style: {
+      navigationBarTitleText: "设备报修"
+    }
+  },
+  {
+    path: "pages/order/order",
+    style: {
+      navigationBarTitleText: "我的工单"
+    }
+  },
+  {
     path: "pages/scene/scene",
     style: {
       navigationBarTitleText: "场景"
@@ -8017,13 +8030,37 @@ const pages = [
     style: {
       navigationBarTitleText: "我的"
     }
+  },
+  {
+    path: "pages/orderDetail/orderDetail",
+    style: {
+      navigationBarTitleText: "工单详情"
+    }
+  },
+  {
+    path: "pages/family/family",
+    style: {
+      navigationBarTitleText: "家庭成员"
+    }
+  },
+  {
+    path: "pages/control/control",
+    style: {
+      navigationBarTitleText: "设备控制"
+    }
+  },
+  {
+    path: "pages/login/login",
+    style: {
+      navigationBarTitleText: "登录"
+    }
   }
 ];
 const globalStyle = {
   navigationBarTextStyle: "black",
   navigationBarTitleText: "SmartLife",
   navigationBarBackgroundColor: "#FFFFFF",
-  backgroundColor: "#F4F7FB"
+  backgroundColor: "#F5F7FB"
 };
 const tabBar = {
   color: "#94A3B8",
@@ -11043,6 +11080,7 @@ let yr = new class {
 })();
 exports._export_sfc = _export_sfc;
 exports.createSSRApp = createSSRApp;
+exports.e = e$1;
 exports.f = f$1;
 exports.index = index;
 exports.n = n$1;

@@ -2,221 +2,90 @@
 
 	<view class="page">
 
-		<!-- 顶部科技背景 -->
+		<!-- 科技背景 -->
+
 		<view class="top-bg"></view>
 
 		<view class="content">
 
-			<!-- 顶部栏 -->
+			<!-- 顶部 -->
+
 			<view class="topbar">
 
-				<view class="family-name">
-					王先生的家⌄
-				</view>
+				<view>
 
-				<view class="right-icons">
-
-					<view class="bell">
-						🔔
+					<view class="family-name">
+						智享之家
 					</view>
 
-					<view class="avatar">
-						W
+					<view class="welcome">
+						欢迎回家，生活因智能而美好
 					</view>
 
 				</view>
 
-			</view>
+				<view class="top-icons">
 
-			<!-- 欢迎区域 -->
-			<view class="hero">
-
-				<view class="hero-title">
-					欢迎回家
-				</view>
-
-				<view class="hero-subtitle">
-					智能生活，舒适每一天
-				</view>
-
-				<view class="weather">
-					🌤️ 26℃ 多云 ｜ 🌿 空气优 28
-				</view>
-
-			</view>
-
-			<!-- 状态卡片 -->
-			<view class="status-card">
-
-				<view class="status-item">
-
-					<view class="status-icon">
-						🛗
+					<view class="icon-btn">
+						•••
 					</view>
 
-					<view class="status-num">
-						18
-					</view>
-
-					<view class="status-label">
-						在线设备
-					</view>
-
-				</view>
-
-				<view class="status-item">
-
-					<view class="status-icon warn">
-						!
-					</view>
-
-					<view class="status-num">
-						1
-					</view>
-
-					<view class="status-label">
-						异常设备
-					</view>
-
-				</view>
-
-				<view class="status-item">
-
-					<view class="status-icon">
-						🌿
-					</view>
-
-					<view class="status-num">
-						12.6
-					</view>
-
-					<view class="status-label">
-						今日能耗
-					</view>
-
-				</view>
-
-				<view class="status-item">
-
-					<view class="status-icon">
-						👥
-					</view>
-
-					<view class="status-num">
-						4
-					</view>
-
-					<view class="status-label">
-						家庭成员
+					<view class="icon-btn">
+						◎
 					</view>
 
 				</view>
 
 			</view>
 
-			<!-- 快捷功能 -->
-			<view class="section-title">
-				快捷功能
-			</view>
+			<!-- 天气 -->
 
-			<view class="quick-grid">
+			<view class="weather-card">
 
-				<view
-					class="quick-card blue"
-					@click="goVoice">
+				<view class="weather-left">
 
-					<view class="quick-circle">
-						🎙️
+					<view class="weather-icon">
+						☀️
 					</view>
 
 					<view>
 
-						<view class="quick-title">
-							语音助手
+						<view class="temp">
+							26℃
 						</view>
 
-						<view class="quick-desc">
-							AI 智能控制
+						<view class="weather-desc">
+							多云 ｜ 空气优
 						</view>
 
-					</view>
-
-					<view class="quick-arrow">
-						›
 					</view>
 
 				</view>
 
-				<view
-					class="quick-card orange"
-					@click="goAddDevice">
+				<view class="weather-right">
 
-					<view class="quick-circle">
-						＋
-					</view>
+					<view class="weather-item">
 
-					<view>
-
-						<view class="quick-title">
-							添加设备
+						<view class="weather-value">
+							58%
 						</view>
 
-						<view class="quick-desc">
-							扫码 / 蓝牙 / 搜索
+						<view class="weather-label">
+							湿度
 						</view>
 
 					</view>
 
-					<view class="quick-arrow">
-						›
-					</view>
+					<view class="weather-item">
 
-				</view>
-
-				<view class="quick-card purple">
-
-					<view class="quick-circle">
-						🏠
-					</view>
-
-					<view>
-
-						<view class="quick-title">
-							回家模式
+						<view class="weather-value">
+							25℃
 						</view>
 
-						<view class="quick-desc">
-							一键开启舒适生活
+						<view class="weather-label">
+							室内温度
 						</view>
 
-					</view>
-
-					<view class="quick-arrow">
-						›
-					</view>
-
-				</view>
-
-				<view class="quick-card green">
-
-					<view class="quick-circle">
-						🛡️
-					</view>
-
-					<view>
-
-						<view class="quick-title">
-							离家布防
-						</view>
-
-						<view class="quick-desc">
-							智能安防守护
-						</view>
-
-					</view>
-
-					<view class="quick-arrow">
-						›
 					</view>
 
 				</view>
@@ -224,39 +93,44 @@
 			</view>
 
 			<!-- 家庭空间 -->
-			<view class="section-row">
 
-				<view class="section-title no-margin">
+			<view class="section-header">
+
+				<view class="section-title">
 					家庭空间
 				</view>
 
-				<view class="section-more">
-					当前：{{ activeRoom }}
+				<view class="manage-btn">
+					管理
 				</view>
 
 			</view>
 
 			<scroll-view
 				scroll-x
-				class="room-scroll">
+				class="room-scroll"
+			>
 
-				<view class="room-list">
+				<view class="room-row">
 
 					<view
-						v-for="room in rooms"
-						:key="room.name"
-						class="room"
-						:class="{ active: activeRoom === room.name }"
-						@click="selectRoom(room.name)"
+						class="room-item"
+						:class="activeRoom === item.name ? 'active-room' : ''"
+						v-for="item in rooms"
+						:key="item.name"
+						@click="selectRoom(item)"
 					>
 
-						<view class="room-icon">
-							{{ room.icon }}
-						</view>
+						{{ item.name }}
 
-						<view>
-							{{ room.name }}
-						</view>
+					</view>
+
+					<view
+						class="add-room"
+						@click="addRoom"
+					>
+
+						＋
 
 					</view>
 
@@ -264,15 +138,74 @@
 
 			</scroll-view>
 
-			<!-- 设备 -->
-			<view class="section-row">
+			<!-- 设备总览 -->
 
-				<view class="section-title no-margin">
+			<view class="section-title stats-title">
+				设备总览
+			</view>
+
+			<view class="stats-grid">
+
+				<view class="stats-card">
+
+					<view class="stats-num">
+						18
+					</view>
+
+					<view class="stats-label">
+						全部设备
+					</view>
+
+				</view>
+
+				<view class="stats-card">
+
+					<view class="stats-num green">
+						15
+					</view>
+
+					<view class="stats-label">
+						在线设备
+					</view>
+
+				</view>
+
+				<view class="stats-card">
+
+					<view class="stats-num gray">
+						3
+					</view>
+
+					<view class="stats-label">
+						离线设备
+					</view>
+
+				</view>
+
+				<view class="stats-card">
+
+					<view class="stats-num red">
+						1
+					</view>
+
+					<view class="stats-label">
+						告警设备
+					</view>
+
+				</view>
+
+			</view>
+
+			<!-- 全部设备 -->
+
+			<view class="section-header">
+
+				<view class="section-title">
 					{{ activeRoom }}设备
 				</view>
 
-				<view class="section-more">
-					全部设备 ›
+				<view class="more-btn">
+					查看全部 ›
 				</view>
 
 			</view>
@@ -280,20 +213,25 @@
 			<view class="device-grid">
 
 				<view
-					v-for="item in roomDevices"
-					:key="item.name"
 					class="device-card"
-					@click="goDeviceDetail(item.type)"
+					v-for="item in filterDeviceList"
+					:key="item.name"
+					@click="goControl(item)"
 				>
 
 					<view class="device-top">
 
-						<view class="device-img">
+						<view class="device-icon">
 							{{ item.icon }}
 						</view>
 
-						<view class="device-status">
-							{{ item.status }}
+						<view
+							class="device-status"
+							:class="item.online ? 'online' : 'offline'"
+						>
+
+							{{ item.online ? '在线' : '离线' }}
+
 						</view>
 
 					</view>
@@ -308,17 +246,116 @@
 
 					<view class="device-bottom">
 
-						<text>
-							● 在线
-						</text>
+						<view class="room-tag">
+							{{ item.room }}
+						</view>
 
-						<view class="power">
+						<view
+							class="power-btn"
+							:class="item.online ? 'power-on' : 'power-off'"
+							@click.stop="toggleDevice(item)"
+						>
+
 							⏻
+
 						</view>
 
 					</view>
 
 				</view>
+
+			</view>
+
+			<!-- 场景 -->
+
+			<view class="section-header">
+
+				<view class="section-title">
+					快捷场景
+				</view>
+
+				<view class="manage-btn">
+					自定义
+				</view>
+
+			</view>
+
+			<view class="scene-grid">
+
+				<view
+					class="scene-card gold"
+					@click="runScene('回家模式')"
+				>
+
+					<view class="scene-icon">
+						🏠
+					</view>
+
+					<view class="scene-name">
+						回家模式
+					</view>
+
+				</view>
+
+				<view
+					class="scene-card green"
+					@click="runScene('离家布防')"
+				>
+
+					<view class="scene-icon">
+						🛡️
+					</view>
+
+					<view class="scene-name">
+						离家布防
+					</view>
+
+				</view>
+
+				<view
+					class="scene-card purple"
+					@click="runScene('睡眠模式')"
+				>
+
+					<view class="scene-icon">
+						🌙
+					</view>
+
+					<view class="scene-name">
+						睡眠模式
+					</view>
+
+				</view>
+
+				<view
+					class="scene-card blue"
+					@click="runScene('会客模式')"
+				>
+
+					<view class="scene-icon">
+						🎉
+					</view>
+
+					<view class="scene-name">
+						会客模式
+					</view>
+
+				</view>
+
+			</view>
+
+		</view>
+
+		<!-- AI语音助手 -->
+
+		<view
+			class="voice-float"
+			@click="goVoice"
+		>
+
+			<view class="voice-circle">
+
+				🎤
 
 			</view>
 
@@ -336,148 +373,84 @@ export default {
 
 		return {
 
-			activeRoom: '客厅',
+			activeRoom: '全部',
 
 			rooms: [
 
 				{
-					name: '客厅',
-					icon: '🛋️'
+					name: '全部'
 				},
 
 				{
-					name: '卧室',
-					icon: '🛏️'
+					name: '客厅'
 				},
 
 				{
-					name: '厨房',
-					icon: '🍳'
+					name: '卧室'
 				},
 
 				{
-					name: '阳台',
-					icon: '🪴'
+					name: '厨房'
 				},
 
 				{
-					name: '三楼',
-					icon: '🏠'
+					name: '阳台'
+				},
+
+				{
+					name: '三楼'
 				}
 
 			],
 
-			allDevices: {
+			deviceList: [
 
-				客厅: [
+				{
+					name: '客厅空调',
+					icon: '❄️',
+					room: '客厅',
+					type: 'ac',
+					desc: '26℃ ｜ 制冷模式',
+					online: true
+				},
 
-					{
-						icon: '🛗',
-						name: '电梯',
-						type: '电梯',
-						desc: '客厅区域 · 正常运行',
-						status: '运行中'
-					},
+				{
+					name: '客厅电梯',
+					icon: '🛗',
+					room: '客厅',
+					type: 'elevator',
+					desc: '运行正常',
+					online: true
+				},
 
-					{
-						icon: '💡',
-						name: '客厅灯光',
-						type: '灯光',
-						desc: '已开启 · 亮度60%',
-						status: '开启'
-					},
+				{
+					name: '卧室灯光',
+					icon: '💡',
+					room: '卧室',
+					type: 'light',
+					desc: '亮度 80%',
+					online: true
+				},
 
-					{
-						icon: '🤖',
-						name: '清洁机器人',
-						type: '机器人',
-						desc: '清扫中 · 电量80%',
-						status: '工作中'
-					},
+				{
+					name: '厨房门锁',
+					icon: '🚪',
+					room: '厨房',
+					type: 'door',
+					desc: '已上锁',
+					online: true
+				},
 
-					{
-						icon: '🚪',
-						name: '门禁',
-						type: '门禁',
-						desc: '已上锁 · 状态正常',
-						status: '正常'
-					}
+				{
+					name: '阳台机器人',
+					icon: '🤖',
+					room: '阳台',
+					type: 'robot',
+					desc: '清扫中',
+					online: false
+				}
 
-				],
-
-				卧室: [
-
-					{
-						icon: '❄️',
-						name: '卧室空调',
-						type: '空调',
-						desc: '26℃ · 制冷中',
-						status: '开启'
-					},
-
-					{
-						icon: '💡',
-						name: '卧室灯光',
-						type: '灯光',
-						desc: '已关闭',
-						status: '关闭'
-					}
-
-				],
-
-				厨房: [
-
-					{
-						icon: '💡',
-						name: '厨房灯光',
-						type: '灯光',
-						desc: '已开启 · 状态正常',
-						status: '开启'
-					},
-
-					{
-						icon: '🛡️',
-						name: '烟雾传感器',
-						type: '安防',
-						desc: '空气检测正常',
-						status: '正常'
-					}
-
-				],
-
-				阳台: [
-
-					{
-						icon: '🤖',
-						name: '阳台机器人',
-						type: '机器人',
-						desc: '待机中 · 电量95%',
-						status: '待机'
-					}
-
-				],
-
-				三楼: [
-
-					{
-						icon: '🛗',
-						name: '三楼电梯',
-						type: '电梯',
-						desc: '运行正常',
-						status: '正常'
-					},
-
-					{
-						icon: '🤖',
-						name: '三楼机器人',
-						type: '机器人',
-						desc: '巡检中',
-						status: '工作中'
-					}
-
-				]
-
-			}
+			]
 
 		}
 
@@ -485,9 +458,19 @@ export default {
 
 	computed: {
 
-		roomDevices() {
+		filterDeviceList() {
 
-			return this.allDevices[this.activeRoom] || []
+			if(this.activeRoom === '全部') {
+
+				return this.deviceList
+
+			}
+
+			return this.deviceList.filter(item => {
+
+				return item.room === this.activeRoom
+
+			})
 
 		}
 
@@ -495,9 +478,55 @@ export default {
 
 	methods: {
 
-		selectRoom(room) {
+		selectRoom(item) {
 
-			this.activeRoom = room
+			this.activeRoom = item.name
+
+		},
+
+		addRoom() {
+
+			uni.showModal({
+
+				title: '新增空间',
+
+				editable: true,
+
+				placeholderText: '请输入空间名称',
+
+				success: (res) => {
+
+					if(res.confirm && res.content){
+
+						this.rooms.push({
+
+							name: res.content
+
+						})
+
+					}
+
+				}
+
+			})
+
+		},
+
+		goControl(item) {
+
+			uni.navigateTo({
+
+				url:
+
+				'/pages/deviceDetail/deviceDetail?' +
+
+				'name=' + item.name +
+
+				'&location=' + item.room +
+
+				'&type=' + item.type
+
+			})
 
 		},
 
@@ -511,23 +540,35 @@ export default {
 
 		},
 
-		goAddDevice() {
+		toggleDevice(item) {
 
-			uni.navigateTo({
+			item.online = !item.online
 
-				url: '/pages/addDevice/addDevice'
-
-			})
+			uni.vibrateShort()
 
 		},
 
-		goDeviceDetail(type) {
+		runScene(name) {
 
-			uni.navigateTo({
+			uni.showLoading({
 
-				url: '/pages/deviceDetail/deviceDetail?type=' + type
+				title: '场景执行中'
 
 			})
+
+			setTimeout(() => {
+
+				uni.hideLoading()
+
+				uni.showToast({
+
+					title: name + ' 已启动',
+
+					icon: 'success'
+
+				})
+
+			}, 1200)
 
 		}
 
@@ -536,11 +577,10 @@ export default {
 }
 
 </script>
-
 <style>
 
 page {
-	background: #041b5f;
+	background: #03174d;
 }
 
 .page {
@@ -550,469 +590,427 @@ page {
 }
 
 .top-bg {
-
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
-
-	height: 900rpx;
-
+	height: 1400rpx;
 	background:
-	radial-gradient(circle at 55% 12%, rgba(0, 213, 255, 0.75), transparent 34%),
-	radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.6), transparent 32%),
-	linear-gradient(145deg, #06134f 0%, #0b3aa0 48%, #03174d 100%);
+		radial-gradient(circle at 50% 10%, rgba(0,213,255,0.75), transparent 34%),
+		radial-gradient(circle at 90% 30%, rgba(59,130,246,0.6), transparent 32%),
+		linear-gradient(145deg, #06134f 0%, #0b3aa0 48%, #03174d 100%);
 }
 
 .content {
-
 	position: relative;
 	z-index: 2;
-
-	padding:
-	80rpx 28rpx 160rpx;
-
+	padding: 80rpx 28rpx 240rpx;
 	box-sizing: border-box;
 }
 
 .topbar {
-
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-
-	color: #ffffff;
+	justify-content: space-between;
 }
 
 .family-name {
-
-	font-size: 32rpx;
-	font-weight: 700;
+	font-size: 54rpx;
+	font-weight: 900;
+	color: #ffffff;
 }
 
-.right-icons {
+.welcome {
+	font-size: 24rpx;
+	margin-top: 12rpx;
+	color: rgba(255,255,255,0.72);
+}
 
+.top-icons {
 	display: flex;
 	align-items: center;
-	gap: 22rpx;
 }
 
-.bell {
-
-	font-size: 42rpx;
-}
-
-.avatar {
-
+.icon-btn {
 	width: 72rpx;
 	height: 72rpx;
-
 	border-radius: 50%;
-
-	background:
-	rgba(255,255,255,0.22);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	font-size: 30rpx;
-	font-weight: 800;
-
-	color: #ffffff;
-}
-
-.hero {
-
-	margin-top: 70rpx;
-	color: #ffffff;
-}
-
-.hero-title {
-
-	font-size: 64rpx;
-	font-weight: 900;
-}
-
-.hero-subtitle {
-
-	font-size: 30rpx;
-	margin-top: 20rpx;
-
-	color:
-	rgba(255,255,255,0.86);
-}
-
-.weather {
-
-	margin-top: 26rpx;
-	font-size: 26rpx;
-
-	color:
-	rgba(255,255,255,0.9);
-}
-
-.status-card {
-
-	margin-top: 46rpx;
-
-	background:
-	rgba(255,255,255,0.16);
-
-	border-radius: 32rpx;
-
-	padding:
-	30rpx 12rpx;
-
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-
+	background: rgba(255,255,255,0.14);
 	backdrop-filter: blur(20rpx);
-}
-
-.status-item {
-
-	text-align: center;
-
-	color: #ffffff;
-
-	border-right:
-	1rpx solid rgba(255,255,255,0.16);
-}
-
-.status-item:last-child {
-
-	border-right: none;
-}
-
-.status-icon {
-
-	font-size: 34rpx;
-	height: 42rpx;
-}
-
-.status-icon.warn {
-
-	width: 38rpx;
-	height: 38rpx;
-
-	margin: 0 auto;
-
-	border-radius: 50%;
-
-	background: #f59e0b;
-
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: #ffffff;
+	font-size: 32rpx;
+	margin-left: 18rpx;
+}
 
+.weather-card {
+	margin-top: 38rpx;
+	padding: 34rpx;
+	border-radius: 36rpx;
+	background: rgba(255,255,255,0.12);
+	border: 1rpx solid rgba(255,255,255,0.14);
+	backdrop-filter: blur(20rpx);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.weather-left {
+	display: flex;
+	align-items: center;
+}
+
+.weather-icon {
+	font-size: 74rpx;
+	margin-right: 24rpx;
+}
+
+.temp {
+	font-size: 68rpx;
+	font-weight: 900;
+	color: #ffffff;
+}
+
+.weather-desc {
 	font-size: 24rpx;
-	font-weight: 900;
-}
-
-.status-num {
-
-	font-size: 42rpx;
-	font-weight: 900;
-
-	margin-top: 10rpx;
-}
-
-.status-label {
-
-	font-size: 22rpx;
-
-	color:
-	rgba(255,255,255,0.78);
-
+	color: rgba(255,255,255,0.74);
 	margin-top: 8rpx;
+}
+
+.weather-right {
+	display: flex;
+	align-items: center;
+}
+
+.weather-item {
+	margin-left: 46rpx;
+	text-align: center;
+}
+
+.weather-value {
+	font-size: 38rpx;
+	font-weight: 800;
+	color: #ffffff;
+}
+
+.weather-label {
+	font-size: 22rpx;
+	margin-top: 8rpx;
+	color: rgba(255,255,255,0.72);
+}
+
+.section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 44rpx;
 }
 
 .section-title {
-
-	font-size: 34rpx;
+	font-size: 40rpx;
 	font-weight: 900;
-
 	color: #ffffff;
-
-	margin: 46rpx 0 22rpx;
 }
 
-.no-margin {
-
-	margin: 0;
-}
-
-.quick-grid {
-
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-
-	gap: 22rpx;
-}
-
-.quick-card {
-
-	height: 168rpx;
-
-	border-radius: 30rpx;
-
-	padding: 26rpx;
-
-	box-sizing: border-box;
-
-	display: flex;
-	align-items: center;
-
-	position: relative;
-
-	color: #ffffff;
-
-	box-shadow:
-	0 12rpx 30rpx rgba(0,0,0,0.18);
-}
-
-.blue {
-	background: linear-gradient(135deg, #27a8ff, #2563eb);
-}
-
-.orange {
-	background: linear-gradient(135deg, #ff9b38, #f97316);
-}
-
-.purple {
-	background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-}
-
-.green {
-	background: linear-gradient(135deg, #34d399, #10b981);
-}
-
-.quick-circle {
-
-	width: 82rpx;
-	height: 82rpx;
-
-	border-radius: 50%;
-
-	background:
-	rgba(255,255,255,0.22);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	font-size: 42rpx;
-
-	margin-right: 22rpx;
-}
-
-.quick-title {
-
-	font-size: 30rpx;
-	font-weight: 900;
-}
-
-.quick-desc {
-
-	font-size: 22rpx;
-	margin-top: 8rpx;
-
-	color:
-	rgba(255,255,255,0.84);
-}
-
-.quick-arrow {
-
-	position: absolute;
-	right: 24rpx;
-
-	font-size: 56rpx;
-
-	opacity: 0.8;
-}
-
-.section-row {
-
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	margin: 48rpx 0 22rpx;
-}
-
-.section-more {
-
-	color:
-	rgba(255,255,255,0.78);
-
-	font-size: 26rpx;
+.manage-btn,
+.more-btn {
+	font-size: 24rpx;
+	color: rgba(255,255,255,0.74);
 }
 
 .room-scroll {
-
+	margin-top: 24rpx;
 	white-space: nowrap;
 }
 
-.room-list {
-
+.room-row {
 	display: flex;
-	gap: 18rpx;
+	align-items: center;
+	padding-bottom: 10rpx;
 }
 
-.room {
-
-	min-width: 138rpx;
-	height: 92rpx;
-
+.room-item {
+	min-width: 140rpx;
+	height: 76rpx;
+	padding: 0 24rpx;
 	border-radius: 24rpx;
+	background: rgba(255,255,255,0.1);
+	backdrop-filter: blur(20rpx);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #ffffff;
+	font-size: 26rpx;
+	margin-right: 18rpx;
+	transition: all 0.3s;
+}
 
-	background:
-	rgba(255,255,255,0.14);
+.room-item:active {
+	transform: scale(0.95);
+}
 
-	color:
-	rgba(255,255,255,0.78);
+.active-room {
+	background: linear-gradient(135deg, #3b82f6, #2563eb);
+	box-shadow: 0 12rpx 30rpx rgba(37,99,235,0.4);
+	font-weight: 700;
+}
 
-	font-size: 24rpx;
+.add-room {
+	min-width: 76rpx;
+	height: 76rpx;
+	border-radius: 24rpx;
+	border: 2rpx dashed rgba(255,255,255,0.4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #ffffff;
+	font-size: 40rpx;
+}
 
+.stats-title {
+	margin-top: 44rpx;
+}
+
+.stats-grid {
+	display: grid;
+	grid-template-columns: repeat(4,1fr);
+	gap: 18rpx;
+	margin-top: 24rpx;
+}
+
+.stats-card {
+	height: 160rpx;
+	border-radius: 30rpx;
+	background: rgba(255,255,255,0.1);
+	backdrop-filter: blur(20rpx);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-
-	border:
-	1rpx solid rgba(255,255,255,0.16);
 }
 
-.room-icon {
-
-	font-size: 30rpx;
-	margin-bottom: 6rpx;
-}
-
-.room.active {
-
-	background:
-	linear-gradient(135deg, #4db7ff, #2563eb);
-
+.stats-num {
+	font-size: 46rpx;
+	font-weight: 900;
 	color: #ffffff;
+}
 
-	box-shadow:
-	0 10rpx 30rpx rgba(37,99,235,0.35);
+.stats-label {
+	font-size: 22rpx;
+	margin-top: 10rpx;
+	color: rgba(255,255,255,0.72);
+}
+
+.green {
+	color: #4ade80;
+}
+
+.gray {
+	color: #cbd5e1;
+}
+
+.red {
+	color: #fb7185;
 }
 
 .device-grid {
-
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-
-	gap: 20rpx;
-
-	padding-bottom: 40rpx;
+	grid-template-columns: repeat(2,1fr);
+	gap: 22rpx;
+	margin-top: 24rpx;
 }
 
 .device-card {
+	background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+	border-radius: 34rpx;
+	padding: 28rpx;
+	backdrop-filter: blur(20rpx);
+	border: 1rpx solid rgba(255,255,255,0.12);
+	transition: all 0.3s;
+}
 
-	background:
-	linear-gradient(180deg, #ffffff, #f5f7fb);
-
-	border-radius: 30rpx;
-
-	padding: 26rpx;
-
-	box-sizing: border-box;
-
-	box-shadow:
-	0 16rpx 40rpx rgba(0, 21, 80, 0.16);
+.device-card:active {
+	transform: scale(0.97);
+	opacity: 0.9;
 }
 
 .device-top {
-
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.device-img {
-
-	width: 76rpx;
-	height: 76rpx;
-
-	border-radius: 22rpx;
-
-	background: #eff6ff;
-
+.device-icon {
+	width: 78rpx;
+	height: 78rpx;
+	border-radius: 24rpx;
+	background: rgba(255,255,255,0.14);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
 	font-size: 42rpx;
 }
 
 .device-status {
-
-	font-size: 22rpx;
-
-	color: #2563eb;
-
-	background: #eff6ff;
-
-	padding: 8rpx 14rpx;
-
+	padding: 8rpx 18rpx;
 	border-radius: 999rpx;
+	font-size: 22rpx;
+	font-weight: 700;
+}
+
+.online {
+	background: rgba(74,222,128,0.18);
+	color: #4ade80;
+}
+
+.offline {
+	background: rgba(203,213,225,0.16);
+	color: #cbd5e1;
 }
 
 .device-name {
-
-	font-size: 30rpx;
-	font-weight: 900;
-
-	color: #0f172a;
-
+	font-size: 32rpx;
+	font-weight: 800;
+	color: #ffffff;
 	margin-top: 24rpx;
 }
 
 .device-desc {
-
-	font-size: 23rpx;
-
-	color: #64748b;
-
-	margin-top: 10rpx;
-
-	line-height: 34rpx;
+	font-size: 24rpx;
+	color: rgba(255,255,255,0.72);
+	margin-top: 12rpx;
+	line-height: 38rpx;
 }
 
 .device-bottom {
-
-	margin-top: 22rpx;
-
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-
-	font-size: 24rpx;
-
-	color: #2563eb;
+	margin-top: 28rpx;
 }
 
-.power {
+.room-tag {
+	padding: 8rpx 16rpx;
+	border-radius: 999rpx;
+	background: rgba(59,130,246,0.18);
+	color: #93c5fd;
+	font-size: 22rpx;
+}
 
-	width: 58rpx;
-	height: 58rpx;
-
+.power-btn {
+	width: 62rpx;
+	height: 62rpx;
 	border-radius: 50%;
-
-	background:
-	linear-gradient(135deg, #3b82f6, #2563eb);
-
-	color: #ffffff;
-
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: #ffffff;
+	font-size: 30rpx;
+	transition: all 0.3s;
+}
 
-	font-size: 32rpx;
+.power-on {
+	background: linear-gradient(135deg, #3b82f6, #2563eb);
+	box-shadow:
+		0 0 30rpx rgba(59,130,246,0.8),
+		0 10rpx 24rpx rgba(37,99,235,0.4);
+}
+
+.power-off {
+	background: linear-gradient(135deg, #64748b, #475569);
+	opacity: 0.7;
+}
+
+.scene-grid {
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	gap: 22rpx;
+	margin-top: 24rpx;
+}
+
+.scene-card {
+	height: 180rpx;
+	border-radius: 34rpx;
+	padding: 28rpx;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	color: #ffffff;
+	transition: all 0.3s;
+}
+
+.scene-card:active {
+	transform: scale(0.96);
+}
+
+.scene-icon {
+	font-size: 54rpx;
+}
+
+.scene-name {
+	font-size: 30rpx;
+	font-weight: 800;
+	margin-top: 22rpx;
+}
+
+.gold {
+	background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.scene-card.green {
+	background: linear-gradient(135deg, #34d399, #10b981);
+}
+
+.purple {
+	background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+.blue {
+	background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.voice-float {
+	position: fixed;
+	right: 34rpx;
+	bottom: 160rpx;
+	z-index: 999;
+}
+
+.voice-circle {
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 50%;
+	background: radial-gradient(circle, #60a5fa, #2563eb);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 48rpx;
+	color: #ffffff;
+	border: 6rpx solid rgba(255,255,255,0.2);
+	box-shadow:
+		0 0 40rpx rgba(37,99,235,0.8),
+		0 20rpx 50rpx rgba(0,0,0,0.3);
+	animation: breathing 2s infinite;
+}
+
+@keyframes breathing {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 40rpx rgba(37,99,235,0.6);
+	}
+
+	50% {
+		transform: scale(1.08);
+		box-shadow: 0 0 80rpx rgba(37,99,235,1);
+	}
+
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 40rpx rgba(37,99,235,0.6);
+	}
 }
 
 </style>

@@ -5,7 +5,7 @@
     <view class="app-header">
 
       <view class="header-title">
-        智享家人工智能管家
+        智享家AI管家
       </view>
 
       <view class="header-subtitle">

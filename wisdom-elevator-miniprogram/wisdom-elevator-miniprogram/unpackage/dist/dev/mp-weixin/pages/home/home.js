@@ -3,171 +3,158 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
-      activeRoom: "客厅",
+      activeRoom: "全部",
       rooms: [
         {
-          name: "客厅",
-          icon: "🛋️"
+          name: "全部"
         },
         {
-          name: "卧室",
-          icon: "🛏️"
+          name: "客厅"
         },
         {
-          name: "厨房",
-          icon: "🍳"
+          name: "卧室"
         },
         {
-          name: "阳台",
-          icon: "🪴"
+          name: "厨房"
         },
         {
-          name: "三楼",
-          icon: "🏠"
+          name: "阳台"
+        },
+        {
+          name: "三楼"
         }
       ],
-      allDevices: {
-        客厅: [
-          {
-            icon: "🛗",
-            name: "电梯",
-            type: "电梯",
-            desc: "客厅区域 · 正常运行",
-            status: "运行中"
-          },
-          {
-            icon: "💡",
-            name: "客厅灯光",
-            type: "灯光",
-            desc: "已开启 · 亮度60%",
-            status: "开启"
-          },
-          {
-            icon: "🤖",
-            name: "清洁机器人",
-            type: "机器人",
-            desc: "清扫中 · 电量80%",
-            status: "工作中"
-          },
-          {
-            icon: "🚪",
-            name: "门禁",
-            type: "门禁",
-            desc: "已上锁 · 状态正常",
-            status: "正常"
-          }
-        ],
-        卧室: [
-          {
-            icon: "❄️",
-            name: "卧室空调",
-            type: "空调",
-            desc: "26℃ · 制冷中",
-            status: "开启"
-          },
-          {
-            icon: "💡",
-            name: "卧室灯光",
-            type: "灯光",
-            desc: "已关闭",
-            status: "关闭"
-          }
-        ],
-        厨房: [
-          {
-            icon: "💡",
-            name: "厨房灯光",
-            type: "灯光",
-            desc: "已开启 · 状态正常",
-            status: "开启"
-          },
-          {
-            icon: "🛡️",
-            name: "烟雾传感器",
-            type: "安防",
-            desc: "空气检测正常",
-            status: "正常"
-          }
-        ],
-        阳台: [
-          {
-            icon: "🤖",
-            name: "阳台机器人",
-            type: "机器人",
-            desc: "待机中 · 电量95%",
-            status: "待机"
-          }
-        ],
-        三楼: [
-          {
-            icon: "🛗",
-            name: "三楼电梯",
-            type: "电梯",
-            desc: "运行正常",
-            status: "正常"
-          },
-          {
-            icon: "🤖",
-            name: "三楼机器人",
-            type: "机器人",
-            desc: "巡检中",
-            status: "工作中"
-          }
-        ]
-      }
+      deviceList: [
+        {
+          name: "客厅空调",
+          icon: "❄️",
+          room: "客厅",
+          type: "ac",
+          desc: "26℃ ｜ 制冷模式",
+          online: true
+        },
+        {
+          name: "客厅电梯",
+          icon: "🛗",
+          room: "客厅",
+          type: "elevator",
+          desc: "运行正常",
+          online: true
+        },
+        {
+          name: "卧室灯光",
+          icon: "💡",
+          room: "卧室",
+          type: "light",
+          desc: "亮度 80%",
+          online: true
+        },
+        {
+          name: "厨房门锁",
+          icon: "🚪",
+          room: "厨房",
+          type: "door",
+          desc: "已上锁",
+          online: true
+        },
+        {
+          name: "阳台机器人",
+          icon: "🤖",
+          room: "阳台",
+          type: "robot",
+          desc: "清扫中",
+          online: false
+        }
+      ]
     };
   },
   computed: {
-    roomDevices() {
-      return this.allDevices[this.activeRoom] || [];
+    filterDeviceList() {
+      if (this.activeRoom === "全部") {
+        return this.deviceList;
+      }
+      return this.deviceList.filter((item) => {
+        return item.room === this.activeRoom;
+      });
     }
   },
   methods: {
-    selectRoom(room) {
-      this.activeRoom = room;
+    selectRoom(item) {
+      this.activeRoom = item.name;
+    },
+    addRoom() {
+      common_vendor.index.showModal({
+        title: "新增空间",
+        editable: true,
+        placeholderText: "请输入空间名称",
+        success: (res) => {
+          if (res.confirm && res.content) {
+            this.rooms.push({
+              name: res.content
+            });
+          }
+        }
+      });
+    },
+    goControl(item) {
+      common_vendor.index.navigateTo({
+        url: "/pages/deviceDetail/deviceDetail?name=" + item.name + "&location=" + item.room + "&type=" + item.type
+      });
     },
     goVoice() {
       common_vendor.index.navigateTo({
         url: "/pages/voice/voice"
       });
     },
-    goAddDevice() {
-      common_vendor.index.navigateTo({
-        url: "/pages/addDevice/addDevice"
-      });
+    toggleDevice(item) {
+      item.online = !item.online;
+      common_vendor.index.vibrateShort();
     },
-    goDeviceDetail(type) {
-      common_vendor.index.navigateTo({
-        url: "/pages/deviceDetail/deviceDetail?type=" + type
+    runScene(name) {
+      common_vendor.index.showLoading({
+        title: "场景执行中"
       });
+      setTimeout(() => {
+        common_vendor.index.hideLoading();
+        common_vendor.index.showToast({
+          title: name + " 已启动",
+          icon: "success"
+        });
+      }, 1200);
     }
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((...args) => $options.goVoice && $options.goVoice(...args), "87"),
-    b: common_vendor.o((...args) => $options.goAddDevice && $options.goAddDevice(...args), "8a"),
-    c: common_vendor.t($data.activeRoom),
-    d: common_vendor.f($data.rooms, (room, k0, i0) => {
+    a: common_vendor.f($data.rooms, (item, k0, i0) => {
       return {
-        a: common_vendor.t(room.icon),
-        b: common_vendor.t(room.name),
-        c: room.name,
-        d: $data.activeRoom === room.name ? 1 : "",
-        e: common_vendor.o(($event) => $options.selectRoom(room.name), room.name)
+        a: common_vendor.t(item.name),
+        b: common_vendor.n($data.activeRoom === item.name ? "active-room" : ""),
+        c: item.name,
+        d: common_vendor.o(($event) => $options.selectRoom(item), item.name)
       };
     }),
-    e: common_vendor.t($data.activeRoom),
-    f: common_vendor.f($options.roomDevices, (item, k0, i0) => {
+    b: common_vendor.o((...args) => $options.addRoom && $options.addRoom(...args), "d8"),
+    c: common_vendor.t($data.activeRoom),
+    d: common_vendor.f($options.filterDeviceList, (item, k0, i0) => {
       return {
         a: common_vendor.t(item.icon),
-        b: common_vendor.t(item.status),
-        c: common_vendor.t(item.name),
-        d: common_vendor.t(item.desc),
-        e: item.name,
-        f: common_vendor.o(($event) => $options.goDeviceDetail(item.type), item.name)
+        b: common_vendor.t(item.online ? "在线" : "离线"),
+        c: common_vendor.n(item.online ? "online" : "offline"),
+        d: common_vendor.t(item.name),
+        e: common_vendor.t(item.desc),
+        f: common_vendor.t(item.room),
+        g: common_vendor.n(item.online ? "power-on" : "power-off"),
+        h: common_vendor.o(($event) => $options.toggleDevice(item), item.name),
+        i: item.name,
+        j: common_vendor.o(($event) => $options.goControl(item), item.name)
       };
-    })
+    }),
+    e: common_vendor.o(($event) => $options.runScene("回家模式"), "16"),
+    f: common_vendor.o(($event) => $options.runScene("离家布防"), "b2"),
+    g: common_vendor.o(($event) => $options.runScene("睡眠模式"), "e0"),
+    h: common_vendor.o(($event) => $options.runScene("会客模式"), "c8"),
+    i: common_vendor.o((...args) => $options.goVoice && $options.goVoice(...args), "54")
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);

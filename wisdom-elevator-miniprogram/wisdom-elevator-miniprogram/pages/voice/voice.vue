@@ -2,127 +2,135 @@
 
 	<view class="page">
 
-		<!-- 顶部 -->
-		<view class="top">
+		<!-- 背景 -->
+		<view class="bg"></view>
 
-			<view class="title">
-				AI 智能助手
+		<view class="content">
+
+			<!-- 顶部 -->
+			<view class="header">
+
+				<view class="title">
+					AI语音助手
+				</view>
+
+				<view class="subtitle">
+					您的智能家居小管家
+				</view>
+
 			</view>
 
-			<view class="subtitle">
-				语音控制全屋智能设备
+			<!-- AI状态 -->
+			<view class="ai-card">
+
+				<view class="ai-circle">
+
+					<view class="ai-dot"></view>
+
+				</view>
+
+				<view class="ai-info">
+
+					<view class="ai-name">
+						您好，我是AI助手
+					</view>
+
+					<view class="ai-desc">
+						您可以这样对我说...
+					</view>
+
+				</view>
+
+			</view>
+
+			<!-- 快捷指令 -->
+			<view class="quick">
+
+				<view
+					class="quick-btn"
+					v-for="item in quickList"
+					:key="item"
+					@click="sendQuick(item)"
+				>
+
+					{{ item }}
+
+				</view>
+
+			</view>
+
+			<!-- 对话区域 -->
+			<view class="chat-title">
+				对话记录
+			</view>
+
+			<scroll-view
+				scroll-y
+				class="chat"
+			>
+
+				<view
+					v-for="(msg,index) in messages"
+					:key="index"
+					class="msg"
+					:class="msg.role"
+				>
+
+					<view class="bubble">
+
+						{{ msg.text }}
+
+					</view>
+
+				</view>
+
+			</scroll-view>
+
+			<!-- 操作指南 -->
+			<view class="guide-card">
+
+				<view class="guide-title">
+					操作指南
+				</view>
+
+				<view class="guide-list">
+
+					<view class="guide-item">
+						🎤 点击底部语音按钮
+					</view>
+
+					<view class="guide-item">
+						💬 说出控制指令
+					</view>
+
+					<view class="guide-item">
+						🤖 AI自动识别设备
+					</view>
+
+					<view class="guide-item">
+						⚡ 自动执行设备控制
+					</view>
+
+				</view>
+
 			</view>
 
 		</view>
 
-		<!-- AI球 -->
-		<view class="ai-area">
+		<!-- 底部中央语音按钮 -->
+		<view class="voice-fixed">
 
 			<view
-				class="ai-ball"
-				:class="{ active: listening }"
-				@click="toggleVoice">
+				class="voice-circle"
+				@click="mockVoice"
+			>
 
 				🎤
 
 			</view>
 
-			<view class="ai-text">
-
-				{{ listening ? '正在聆听...' : '点击开始语音控制' }}
-
-			</view>
-
-		</view>
-
-		<!-- 识别结果 -->
-		<view class="card">
-
-			<view class="card-title">
-				语音识别结果
-			</view>
-
-			<view class="voice-result">
-
-				{{ result || '暂无语音内容' }}
-
-			</view>
-
-		</view>
-
-		<!-- AI建议 -->
-		<view class="card">
-
-			<view class="card-title">
-				AI 推荐指令
-			</view>
-
-			<view class="command-list">
-
-				<view
-					class="command-item"
-					@click="mockCommand('打开客厅灯')">
-
-					💡 打开客厅灯
-
-				</view>
-
-				<view
-					class="command-item"
-					@click="mockCommand('空调调到26度')">
-
-					❄️ 空调调到26度
-
-				</view>
-
-				<view
-					class="command-item"
-					@click="mockCommand('启动睡眠模式')">
-
-					🌙 启动睡眠模式
-
-				</view>
-
-				<view
-					class="command-item"
-					@click="mockCommand('关闭全部设备')">
-
-					🏠 关闭全部设备
-
-				</view>
-
-			</view>
-
-		</view>
-
-		<!-- 执行记录 -->
-		<view class="card">
-
-			<view class="card-title">
-				最近执行
-			</view>
-
-			<view
-				class="history-item"
-				v-for="(item,index) in history"
-				:key="index">
-
-				<view>
-
-					<view class="history-name">
-						{{ item }}
-					</view>
-
-					<view class="history-time">
-						刚刚执行
-					</view>
-
-				</view>
-
-				<view class="success-tag">
-					成功
-				</view>
-
+			<view class="voice-text">
+				点击开始说话
 			</view>
 
 		</view>
@@ -139,15 +147,29 @@ export default {
 
 		return {
 
-			listening:false,
+			messages: [
 
-			result:'',
+				{
+					role: 'ai',
+					text:
+					'您好，我是 SmartLife AI，可帮您控制家庭设备'
+				}
 
-			history:[
+			],
 
-				'打开客厅灯',
+			quickList: [
 
-				'启动回家模式'
+				'打开客厅空调',
+
+				'关闭全部灯光',
+
+				'查看电梯状态',
+
+				'启动清扫机器人',
+
+				'开启回家模式',
+
+				'关闭卧室灯光'
 
 			]
 
@@ -155,52 +177,156 @@ export default {
 
 	},
 
-	methods:{
+	methods: {
 
-		toggleVoice(){
+		/* 快捷发送 */
 
-			this.listening = !this.listening
+		sendQuick(text) {
 
-			if(this.listening){
+			this.messages.push({
 
-				setTimeout(()=>{
+				role: 'user',
 
-					this.result =
-					'空调调到26度'
+				text
 
-					this.history.unshift(
-						'空调调到26度'
-					)
+			})
 
-					this.listening = false
+			setTimeout(() => {
 
-					uni.showToast({
+				this.reply(text)
 
-						title:'执行成功',
-
-						icon:'success'
-
-					})
-
-				},2000)
-
-			}
+			}, 500)
 
 		},
 
-		mockCommand(text){
+		/* 模拟语音 */
 
-			this.result = text
-
-			this.history.unshift(text)
+		mockVoice() {
 
 			uni.showToast({
 
-				title:'指令执行成功',
+				title: 'AI正在识别语音...',
 
-				icon:'success'
+				icon: 'none'
 
 			})
+
+			setTimeout(() => {
+
+				this.sendQuick('打开客厅空调')
+
+			}, 1000)
+
+		},
+
+		/* AI回复 */
+
+		reply(text) {
+
+			let res = '已为您处理'
+
+			let target = null
+
+			/* 空调 */
+
+			if(text.includes('空调')) {
+
+				res =
+				'已为您打开客厅空调，当前温度26℃，正在进入控制面板'
+
+				target = {
+
+					name: '客厅空调',
+
+					location: '客厅'
+
+				}
+
+			}
+
+			/* 灯光 */
+
+			if(text.includes('灯')) {
+
+				res =
+				'已关闭对应区域灯光'
+
+			}
+
+			/* 电梯 */
+
+			if(text.includes('电梯')) {
+
+				res =
+				'客厅电梯运行正常，正在进入设备控制页'
+
+				target = {
+
+					name: '客厅电梯',
+
+					location: '客厅'
+
+				}
+
+			}
+
+			/* 机器人 */
+
+			if(text.includes('机器人')) {
+
+				res =
+				'清洁机器人已启动，正在进入控制面板'
+
+				target = {
+
+					name: '客厅机器人',
+
+					location: '客厅'
+
+				}
+
+			}
+
+			/* 回家模式 */
+
+			if(text.includes('回家')) {
+
+				res =
+				'回家模式已开启，灯光与空调已自动打开'
+
+			}
+
+			/* AI回复 */
+
+			this.messages.push({
+
+				role: 'ai',
+
+				text: res
+
+			})
+
+			/* 自动跳转 */
+
+			if(target) {
+
+				setTimeout(() => {
+
+					uni.navigateTo({
+
+						url:
+
+						'/pages/control/control?' +
+
+						'name=' + target.name +
+
+						'&location=' + target.location
+
+					})
+
+				}, 1200)
+
+			}
 
 		}
 
@@ -212,241 +338,378 @@ export default {
 
 <style>
 
-page{
-
-	background:
-	linear-gradient(
-	180deg,
-	#EEF4FF 0%,
-	#F8FAFC 100%
-	);
-
+page {
+	background: #020617;
 }
 
-.page{
+.page {
+
+	min-height: 100vh;
+
+	position: relative;
+
+	overflow: hidden;
+}
+
+/* 背景 */
+
+.bg {
+
+	position: absolute;
+
+	width: 100%;
+	height: 100%;
+
+	background:
+
+	radial-gradient(
+		circle at 20% 20%,
+		rgba(59,130,246,0.45),
+		transparent 30%
+	),
+
+	radial-gradient(
+		circle at 80% 40%,
+		rgba(0,213,255,0.35),
+		transparent 30%
+	),
+
+	linear-gradient(
+		145deg,
+		#020617,
+		#0b3aa0
+	);
+}
+
+.content {
+
+	position: relative;
+
+	z-index: 2;
 
 	padding:
-	90rpx
-	28rpx
-	40rpx;
+	80rpx 24rpx 360rpx;
 
+	box-sizing: border-box;
 }
 
 /* 顶部 */
 
-.title{
+.header {
 
-	font-size:44rpx;
-	font-weight:800;
-
-	color:#0F172A;
-
+	color: #ffffff;
 }
 
-.subtitle{
+.title {
 
-	font-size:26rpx;
+	font-size: 54rpx;
 
-	color:#64748B;
-
-	margin-top:10rpx;
-	margin-bottom:30rpx;
-
+	font-weight: 900;
 }
 
-/* AI区域 */
+.subtitle {
 
-.ai-area{
+	font-size: 24rpx;
 
-	height:420rpx;
+	margin-top: 10rpx;
 
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-	justify-content:center;
-
+	color:
+	rgba(255,255,255,0.72);
 }
 
-.ai-ball{
+/* AI卡片 */
 
-	width:220rpx;
-	height:220rpx;
+.ai-card {
 
-	border-radius:50%;
+	margin-top: 36rpx;
+
+	padding: 30rpx;
+
+	border-radius: 34rpx;
+
+	background:
+	rgba(255,255,255,0.12);
+
+	backdrop-filter: blur(20rpx);
+
+	border:
+	1rpx solid rgba(255,255,255,0.16);
+
+	display: flex;
+	align-items: center;
+}
+
+.ai-circle {
+
+	width: 100rpx;
+	height: 100rpx;
+
+	border-radius: 50%;
 
 	background:
 	linear-gradient(
-	135deg,
-	#2563EB,
-	#3B82F6
+		135deg,
+		#3b82f6,
+		#06b6d4
 	);
 
-	display:flex;
-	align-items:center;
-	justify-content:center;
-
-	font-size:90rpx;
-
-	color:white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	box-shadow:
-	0 20rpx 60rpx
-	rgba(37,99,235,0.35);
-
-	transition:all 0.3s;
-
+	0 0 40rpx rgba(59,130,246,0.8);
 }
 
-.ai-ball.active{
+.ai-dot {
 
-	transform:scale(1.08);
+	width: 26rpx;
+	height: 26rpx;
 
-	box-shadow:
-	0 20rpx 80rpx
-	rgba(37,99,235,0.55);
+	border-radius: 50%;
 
+	background: #ffffff;
 }
 
-.ai-text{
+.ai-info {
 
-	font-size:28rpx;
-
-	color:#334155;
-
-	margin-top:36rpx;
-
+	margin-left: 24rpx;
 }
 
-/* 卡片 */
+.ai-name {
 
-.card{
+	font-size: 34rpx;
+	font-weight: 800;
 
-	background:white;
-
-	border-radius:32rpx;
-
-	padding:30rpx;
-
-	margin-bottom:28rpx;
-
-	box-shadow:
-	0 10rpx 40rpx
-	rgba(15,23,42,0.05);
-
+	color: #ffffff;
 }
 
-.card-title{
+.ai-desc {
 
-	font-size:32rpx;
-	font-weight:800;
+	margin-top: 10rpx;
 
-	color:#0F172A;
+	font-size: 24rpx;
 
-	margin-bottom:24rpx;
-
+	color:
+	rgba(255,255,255,0.72);
 }
 
-/* 结果 */
+/* 快捷指令 */
 
-.voice-result{
+.quick {
 
-	min-height:100rpx;
+	display: flex;
 
-	background:#F8FAFC;
+	flex-wrap: wrap;
 
-	border-radius:22rpx;
+	gap: 16rpx;
 
-	padding:24rpx;
-
-	font-size:28rpx;
-
-	color:#0F172A;
-
-	line-height:42rpx;
-
+	margin-top: 28rpx;
 }
 
-/* 指令 */
-
-.command-list{
-
-	display:flex;
-	flex-wrap:wrap;
-	gap:18rpx;
-
-}
-
-.command-item{
+.quick-btn {
 
 	padding:
-	18rpx
-	24rpx;
+	14rpx 24rpx;
 
-	background:#EFF6FF;
+	border-radius: 999rpx;
 
-	border-radius:999rpx;
+	background:
+	rgba(255,255,255,0.12);
 
-	font-size:26rpx;
+	border:
+	1rpx solid rgba(255,255,255,0.14);
 
-	color:#2563EB;
+	color: #ffffff;
 
+	font-size: 24rpx;
 }
 
-/* 历史 */
+/* 聊天 */
 
-.history-item{
+.chat-title {
 
-	display:flex;
+	margin-top: 40rpx;
 
-	justify-content:space-between;
+	font-size: 32rpx;
+	font-weight: 800;
 
-	align-items:center;
-
-	padding:24rpx 0;
-
-	border-bottom:
-	2rpx solid #F1F5F9;
-
+	color: #ffffff;
 }
 
-.history-item:last-child{
+.chat {
 
-	border-bottom:none;
+	height: 520rpx;
 
+	margin-top: 24rpx;
 }
 
-.history-name{
+.msg {
 
-	font-size:28rpx;
-	font-weight:700;
+	display: flex;
 
-	color:#0F172A;
-
+	margin-bottom: 20rpx;
 }
 
-.history-time{
+.msg.user {
 
-	font-size:22rpx;
-
-	color:#64748B;
-
-	margin-top:8rpx;
-
+	justify-content: flex-end;
 }
 
-.success-tag{
+.bubble {
 
-	padding:
-	8rpx 18rpx;
+	max-width: 72%;
 
-	border-radius:999rpx;
+	padding: 22rpx;
 
-	background:#DCFCE7;
+	border-radius: 24rpx;
 
-	color:#16A34A;
+	font-size: 28rpx;
 
-	font-size:22rpx;
+	line-height: 42rpx;
+}
 
+.msg.user .bubble {
+
+	background:
+	linear-gradient(
+		135deg,
+		#2563eb,
+		#3b82f6
+	);
+
+	color: #ffffff;
+}
+
+.msg.ai .bubble {
+
+	background:
+	rgba(255,255,255,0.14);
+
+	backdrop-filter: blur(20rpx);
+
+	border:
+	1rpx solid rgba(255,255,255,0.12);
+
+	color: #ffffff;
+}
+
+/* 操作指南 */
+
+.guide-card {
+
+	margin-top: 34rpx;
+
+	background:
+	rgba(255,255,255,0.1);
+
+	border:
+	1rpx solid rgba(255,255,255,0.12);
+
+	backdrop-filter: blur(20rpx);
+
+	border-radius: 30rpx;
+
+	padding: 28rpx;
+}
+
+.guide-title {
+
+	font-size: 30rpx;
+	font-weight: 800;
+
+	color: #ffffff;
+
+	margin-bottom: 24rpx;
+}
+
+.guide-list {
+
+	display: grid;
+
+	grid-template-columns:
+	repeat(2,1fr);
+
+	gap: 18rpx;
+}
+
+.guide-item {
+
+	height: 92rpx;
+
+	background:
+	rgba(255,255,255,0.08);
+
+	border-radius: 20rpx;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	text-align: center;
+
+	padding: 0 10rpx;
+
+	color: #ffffff;
+
+	font-size: 24rpx;
+}
+
+/* 底部语音按钮 */
+
+.voice-fixed {
+
+	position: fixed;
+
+	left: 0;
+	right: 0;
+	bottom: 90rpx;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	z-index: 999;
+}
+
+.voice-circle {
+
+	width: 190rpx;
+	height: 190rpx;
+
+	border-radius: 50%;
+
+	background:
+	radial-gradient(
+		circle,
+		#60a5fa,
+		#2563eb
+	);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 74rpx;
+
+	color: #ffffff;
+
+	box-shadow:
+	0 0 70rpx rgba(37,99,235,0.95),
+	0 24rpx 60rpx rgba(0,0,0,0.35);
+
+	border:
+	8rpx solid rgba(255,255,255,0.18);
+}
+
+.voice-text {
+
+	margin-top: 18rpx;
+
+	font-size: 28rpx;
+	font-weight: 700;
+
+	color: #ffffff;
 }
 
 </style>

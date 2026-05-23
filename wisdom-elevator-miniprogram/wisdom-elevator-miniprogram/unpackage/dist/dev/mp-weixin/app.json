@@ -4,15 +4,21 @@
     "pages/device/device",
     "pages/deviceDetail/deviceDetail",
     "pages/addDevice/addDevice",
+    "pages/repair/repair",
+    "pages/order/order",
     "pages/scene/scene",
     "pages/voice/voice",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/orderDetail/orderDetail",
+    "pages/family/family",
+    "pages/control/control",
+    "pages/login/login"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "SmartLife",
     "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#F4F7FB"
+    "backgroundColor": "#F5F7FB"
   },
   "tabBar": {
     "color": "#94A3B8",

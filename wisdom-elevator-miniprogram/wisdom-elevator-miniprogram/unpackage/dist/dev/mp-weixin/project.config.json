@@ -6,10 +6,11 @@
   "setting": {
     "urlCheck": false,
     "es6": true,
-    "postcss": false,
-    "minified": false,
+    "postcss": true,
+    "minified": true,
     "newFeature": true,
-    "bigPackageSizeSupport": true
+    "bigPackageSizeSupport": true,
+    "uglifyFileName": false
   },
   "compileType": "miniprogram",
   "libVersion": "",

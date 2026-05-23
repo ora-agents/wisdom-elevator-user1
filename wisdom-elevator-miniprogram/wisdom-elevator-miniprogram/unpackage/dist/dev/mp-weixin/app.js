@@ -6,9 +6,15 @@ if (!Math) {
   "./pages/device/device.js";
   "./pages/deviceDetail/deviceDetail.js";
   "./pages/addDevice/addDevice.js";
+  "./pages/repair/repair.js";
+  "./pages/order/order.js";
   "./pages/scene/scene.js";
   "./pages/voice/voice.js";
   "./pages/mine/mine.js";
+  "./pages/orderDetail/orderDetail.js";
+  "./pages/family/family.js";
+  "./pages/control/control.js";
+  "./pages/login/login.js";
 }
 const _sfc_main = {
   onLaunch: function() {
